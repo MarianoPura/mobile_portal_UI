@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gym Member Profile - ARMANI'S GYM</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.344.0/lucide.min.css">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+     <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+         .bg-gold {
+    background-color: rgb(236, 182, 19) !important;
+  }
+  .text-gold {
+    color: rgb(236, 182, 19) !important;
+  }
+  .border-gold {
+    border-color: rgb(236, 182, 19) !important;
+  }
+      body {
+        background: linear-gradient(
+          135deg,
+          #1a1a1a 0%,
+          #000000 50%,
+          #1a1a1a 100%
+        );
+        /* min-height: 100vh; */
+        font-family: "Arial", sans-serif;
+        position: relative;
+      }
+
+      .ambient-light-1 {
+        position: absolute;
+        top: 25%;
+        left: 25%;
+        width: 8rem;
+        height: 8rem;
+        background: rgba(255, 193, 7, 0.05);
+        border-radius: 50%;
+        filter: blur(3rem);
+        pointer-events: none;
+      }
+
+      .ambient-light-2 {
+        position: absolute;
+        bottom: 25%;
+        right: 25%;
+        width: 8rem;
+        height: 8rem;
+        background: rgba(255, 193, 7, 0.05);
+        border-radius: 50%;
+        filter: blur(3rem);
+        pointer-events: none;
+      }
+
+      .gym-title {
+        color: #ffc107;
+        font-size: 3.5rem;
+        font-weight: bold;
+        letter-spacing: 0.2em;
+        text-shadow: 0 0 20px rgba(255, 193, 7, 0.3);
+        margin-bottom: 1rem;
+      }
+
+      .subtitle {
+        color: #6c757d;
+        font-size: 1.25rem;
+        margin-bottom: 2rem;
+      }
+
+      .code-input {
+        width: 4rem;
+        height: 5rem;
+        background: #343a40;
+        border: 2px solid #495057;
+        border-radius: 0.5rem;
+        color: white;
+        font-size: 1.5rem;
+        font-weight: bold;
+        text-align: center;
+        transition: all 0.2s ease;
+        margin: 0 0.375rem;
+      }
+
+      .code-input.active {
+        border-color: #ffc107;
+        background: #495057;
+        box-shadow: 0 0 10px rgba(255, 193, 7, 0.3);
+      }
+
+      .code-input.success {
+        border-color: #28a745;
+        background: rgba(40, 167, 69, 0.1);
+        color: #28a745;
+      }
+
+      .code-input.error {
+        border-color: #dc3545;
+        background: rgba(220, 53, 69, 0.1);
+        color: #dc3545;
+      }
+
+     .keypad-btn {
+        width: 70px;
+        height: 70px;
+        font-size: 1.5rem;
+        margin: 0 0.5rem;
+        border-radius: 15px;
+        border: 2px solid gold;
+        color: gold;
+        font-weight: bold;
+        transition: transform 0.1s ease;
+      }
+
+      .keypad-btn.number {
+        background: black;
+        color: gold;
+        box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+      }
+
+      .keypad-btn.number:hover:not(:disabled) {
+        background: #ffca2c;
+        color: black;
+        transform: scale(1.05);
+        box-shadow: 0 6px 20px rgba(255, 193, 7, 0.4);
+      }
+      .keypad-btn.number:active {
+        transform: scale(0.95);
+      }
+
+      .keypad-btn.backspace {
+        background: #495057;
+        color: white;
+      }
+      .backspace {
+        background-color: #dc3545;
+        color: white;
+      }
+
+      .backspace:hover {
+        background-color: #ff4d4d;
+      }
+
+      .keypad-btn.backspace:hover:not(:disabled) {
+        background: #5a6268;
+        transform: scale(1.05);
+      }
+
+      .keypad-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      .keypad-btn:hover {
+        transform: scale(1.05);
+        background-color: #ffd700;
+      }
+      .keypad-btn:disabled:hover {
+        transform: none !important;
+      }
+
+      /* Modal + UI utilities (match theme, keep positions/colors) */
+      .modal-overlay { 
+        position: fixed; inset: 0; 
+        background: rgba(0,0,0,0.6); 
+        display: none; 
+        align-items: center; justify-content: center; 
+        z-index: 50; 
+        padding: 1rem;
+      }
+      .modal-overlay.active { display: flex; }
+      .modal-content { 
+        background: rgba(30,30,30,0.95); 
+        border: 1px solid rgba(108,117,125,0.4); 
+        border-radius: 16px; 
+        width: 100%; max-width: 520px; 
+        max-height: 90vh; overflow: auto; 
+        padding: 1.25rem; 
+        box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      }
+      .form-input { 
+        width: 100%; 
+        background: #2c2c2c; 
+        border: 1px solid #495057; 
+        color: #fff; 
+        padding: 0.6rem 0.8rem; 
+        border-radius: 10px; 
+        outline: none; 
+        transition: box-shadow .2s, border-color .2s;
+      }
+      .form-input:focus { 
+        border-color: rgb(236, 182, 19); 
+        box-shadow: 0 0 0 3px rgba(236,182,19,0.15);
+      }
+      .btn-primary { 
+        background: rgb(236, 182, 19); 
+        color: #000; 
+        padding: 0.6rem 1rem; 
+        border-radius: 10px; 
+        font-weight: 600; 
+        border: none; 
+        transition: transform .1s ease; 
+      }
+      .btn-primary:hover { transform: translateY(-1px); }
+      .btn-secondary { 
+        background: #2c2c2c; 
+        color: #fff; 
+        padding: 0.6rem 1rem; 
+        border-radius: 10px; 
+        border: 1px solid #495057; 
+        font-weight: 600; 
+        transition: background .2s, transform .1s; 
+      }
+      .btn-secondary:hover { background: #3a3a3a; transform: translateY(-1px); }
+
+      @media (max-width: 576px) {
+        .modal-content { padding: 1rem; border-radius: 12px; }
+      }
+
+      /* Account Settings responsiveness */
+      @media (max-width: 1024px) {
+        #lp-settings-screen .grid { grid-template-columns: 1fr !important; }
+      }
+      @media (max-width: 640px) {
+        #lp-settings-screen .w-24.h-24 { width: 80px; height: 80px; }
+        #lp-settings-screen .p-6 { padding: 1rem; }
+      }
+
+      .result-message {
+        font-size: 1.125rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+      }
+
+      .result-success {
+        color: #28a745;
+      }
+
+      .result-error {
+        color: #dc3545;
+      }
+
+      .footer-text {
+        color: #6c757d;
+        font-size: 0.875rem;
+        margin-top: 2rem;
+      }
+
+      .reset-btn {
+        background: #495057;
+        border: none;
+        color: white;
+        padding: 0.5rem 1.5rem;
+        border-radius: 0.5rem;
+        transition: all 0.2s ease;
+      }
+
+      .reset-btn:hover {
+        background: #5a6268;
+        color: white;
+      }
+
+      .redirect-message {
+        color: #28a745;
+        font-size: 1rem;
+        margin-top: 1rem;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .redirect-message.show {
+        opacity: 1;
+      }
+
+      @media (max-width: 768px) {
+        .gym-title {
+          font-size: 2.5rem;
+        }
+
+        .code-input {
+          width: 3rem;
+          height: 4rem;
+          font-size: 1.25rem;
+        }
+
+        .keypad-btn {
+          width: 4rem;
+          height: 4rem;
+          font-size: 1.25rem;
+          margin: 0.25rem;
+        }
+      }
+    </style>
+
+</head>
+<body>
+     <div
+      id="auth-section"
+      class="container-fluid d-flex align-items-center justify-content-center min-vh-100">
+      <div class="text-center" style="max-width: 450px; width: 100%">
+        <!-- Header -->
+        <h1 class="gym-title">ARMANI'S GYM</h1>
+        <p class="subtitle">Enter your access code</p>
+
+        <!-- Access Code Display -->
+        <div class="d-flex justify-content-center mb-4">
+          <input
+            type="text"
+            class="code-input"
+            id="digit-0"
+            readonly
+            maxlength="1"
+          />
+          <input
+            type="text"
+            class="code-input"
+            id="digit-1"
+            readonly
+            maxlength="1"
+          />
+          <input
+            type="text"
+            class="code-input"
+            id="digit-2"
+            readonly
+            maxlength="1"
+          />
+          <input
+            type="text"
+            class="code-input"
+            id="digit-3"
+            readonly
+            maxlength="1"
+          />
+        </div>
+
+   <!-- Reset Button -->
+   <div id="reset-section" style="display: none">
+    <button class="reset-btn" onclick="resetCode()">Try Again</button>
+  </div>
+
+       <!-- CAPTCHA Section -->
+       <div class="captcha-container mb-4" style="background: #1a1a1a; padding: 15px; border-radius: 10px; text-align: center;">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <span style="color: #ffc107; font-size: 0.9rem;">Enter CAPTCHA:</span>
+          <button type="button" id="refresh-captcha" class="btn btn-sm" style="background: #ffc107; color: #000; border: none; border-radius: 5px; padding: 2px 8px; font-size: 0.8rem;">
+            <i class="fas fa-sync-alt"></i> Refresh
+          </button>
+        </div>
+        <div class="d-flex justify-content-center align-items-center gap-3">
+          <div id="captcha-text" style="background: #2c2c2c; color: #ffc107; font-family: 'Courier New', monospace; font-size: 1.5rem; letter-spacing: 5px; padding: 5px 15px; border-radius: 5px; user-select: none;">A7B9</div>
+          <input type="text" id="captcha-input" class="form-control" style="max-width: 120px; text-align: center; background: #2c2c2c; border: 1px solid #495057; color: #fff;" placeholder="Enter CAPTCHA" maxlength="4">
+        </div>
+        <div id="captcha-error" class="text-danger mt-2" style="color: #dc3545; font-size: 0.8rem; min-height: 20px;"></div>
+      </div>
+
+      <!-- Result Message -->
+      <div id="result-message" class="result-message" style="display: none">
+        <i id="result-icon"></i>
+        <span id="result-text"></span>
+      </div>
+
+      <!-- Redirect Message -->
+      <div id="redirect-message" class="redirect-message" style="display: none; transition: opacity 0.3s ease; opacity: 0;">
+        <i class="fas fa-spinner fa-spin me-2"></i>
+        Redirecting to home page...
+      </div>
+      
+        <!-- Keypad -->
+        <div class="d-flex flex-column align-items-center mb-4">
+          <div class="d-flex flex-column align-items-center mb-4">
+            <div class="d-flex justify-content-center mb-3 gap-3">
+              <button
+                class="keypad-btn number"
+                onclick="handleNumberClick('1')"
+              >
+                1
+              </button>
+              <button
+                class="keypad-btn number"
+                onclick="handleNumberClick('2')"
+              >
+                2
+              </button>
+              <button
+                class="keypad-btn number"
+                onclick="handleNumberClick('3')"
+              >
+                3
+              </button>
+            </div>
+            <div class="d-flex justify-content-center mb-3 gap-3">
+              <button
+                class="keypad-btn number"
+                onclick="handleNumberClick('4')"
+              >
+                4
+              </button>
+              <button
+                class="keypad-btn number"
+                onclick="handleNumberClick('5')"
+              >
+                5
+              </button>
+              <button
+                class="keypad-btn number"
+                onclick="handleNumberClick('6')"
+              >
+                6
+              </button>
+            </div>
+            <div class="d-flex justify-content-center mb-3 gap-3">
+              <button
+                class="keypad-btn number"
+                onclick="handleNumberClick('7')"
+              >
+                7
+              </button>
+              <button
+                class="keypad-btn number"
+                onclick="handleNumberClick('8')"
+              >
+                8
+              </button>
+              <button
+                class="keypad-btn number"
+                onclick="handleNumberClick('9')"
+              >
+                9
+              </button>
+            </div>
+            <div class="d-flex justify-content-center gap-3">
+              <div style="width: 70px"></div>
+              <button
+                class="keypad-btn number"
+                onclick="handleNumberClick('0')"
+              >
+                0
+              </button>
+              <button
+                class="keypad-btn backspace"
+                onclick="handleBackspace()"
+                id="backspace-btn"
+              >
+                <i class="fas fa-backspace"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+       
+
+        <!-- Footer -->
+      </div>
+    </div>
+    <div id="app-section" class="d-none">
+
+            <div class="min-h-screen bg-background">
+                <!-- Header -->
+                <header class="sticky top-0 z-50 bg-gradient-to-r from-secondary/80 to-secondary border-b border-secondary/50 p-4">
+                    <div class="max-w-4xl mx-auto flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="relative">
+                                <div class="absolute inset-0 bg-gold rounded-full blur-lg opacity-30"></div>
+                                <div class="relative bg-gold p-3 rounded-full">
+                                    <i data-lucide="dumbbell" class="w-6 h-6 text-gold-foreground" stroke-width="2.5"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <h1 class="text-xl font-bold text-foreground">ARMANI'S GYM</h1>
+                                <p class="text-foreground/60 text-sm">Member Profile</p>
+                            </div>
+                        </div>
+                        <button id="lp-settings-button" title="Settings" class="text-foreground/60 hover:text-foreground transition-colors">
+                            <i data-lucide="settings" class="w-6 h-6"></i>
+                        </button>
+                    </div>
+                </header>
+                <!-- Main Content -->
+                <main class="max-w-4xl mx-auto p-4 py-8">
+                    <!-- Profile Card -->
+                    <div class="bg-gradient-to-b from-secondary/40 to-secondary/60 rounded-3xl shadow-2xl border border-secondary/50 overflow-hidden mb-8">
+                        <!-- Cover Section -->
+                        <div class="relative h-32 bg-gradient-to-r from-primary to-accent">
+                            <div class="absolute inset-0 bg-black/20"></div>
+                            <div class="absolute bottom-4 left-6">
+                                <div class="flex items-center gap-2 text-primary-foreground">
+                                    <i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                                    <span class="font-semibold">Premium Member</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Profile Info -->
+                        <div class="relative px-6 pb-8">
+                            <!-- Profile Picture -->
+                            <div class="absolute -top-16 left-6">
+                                <div class="relative">
+                                    <div class="w-32 h-32 rounded-full border-4 border-secondary bg-gradient-to-br from-secondary/60 to-secondary overflow-hidden">
+                                        <img id="lp-profile-img" src="https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&w=400" 
+                                            alt="Profile Picture" 
+                                            class="w-full h-full object-cover">
+                                    </div>
+                                    <div class="absolute bottom-2 right-2 w-6 h-6 bg-green-500 rounded-full border-2 border-secondary"></div>
+                                </div>
+                            </div>
+
+                            <!-- Member Info -->
+                            <div class="pt-20">
+                                <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
+                                    <div class="flex-1">
+                                        <h2 class="text-3xl font-bold text-foreground mb-2">Marcus Johnson</h2>
+                                        <p class="text-gold font-semibold mb-4">Premium Member since 2022</p>
+                                        
+                                        <!-- Stats -->
+                                        <div class="grid grid-cols-3 gap-4 mb-6">
+                                            <div class="text-center">
+                                                <div class="text-2xl font-bold text-gold">156</div>
+                                                <div class="text-foreground/60 text-sm">Workouts</div>
+                                            </div>
+                                            <div class="text-center">
+                                                <div class="text-2xl font-bold text-gold">24</div>
+                                                <div class="text-foreground/60 text-sm">Months</div>
+                                            </div>
+                                            <div class="text-center">
+                                                <div class="text-2xl font-bold text-gold">8</div>
+                                                <div class="text-foreground/60 text-sm">Referrals</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Action Buttons -->
+                                    <div class="flex flex-col sm:flex-row gap-3 lg:flex-col">
+                                        <button id="appointment-btn" class="btn-primary">
+                                            <i data-lucide="calendar-plus" class="w-5 h-5"></i>
+                                            Set Appointment
+                                        </button>
+                                        <button id="refer-btn" class="btn-secondary">
+                                            <i data-lucide="user-plus" class="w-5 h-5"></i>
+                                            Refer a Friend
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    
+
+                    <!-- Details Grid -->
+                    <div class="grid lg:grid-cols-2 gap-8">
+                        <!-- Personal Details -->
+                        <div class="bg-gradient-to-b from-secondary/40 to-secondary/60 rounded-2xl border border-secondary/50 p-6">
+                            <div class="flex items-center gap-3 mb-6">
+                                <div class="p-2 bg-primary/20 rounded-lg">
+                                    <i data-lucide="user" class="w-5 h-5 text-gold"></i>
+                                </div>
+                                <h3 class="text-xl font-bold text-foreground">Personal Details</h3>
+                            </div>
+
+                            <div class="space-y-4">
+                                <div class="flex justify-between items-center py-3 border-b border-secondary/30">
+                                    <span class="text-foreground/60">Full Name</span>
+                                    <span class="text-foreground font-medium">Marcus Johnson</span>
+                                </div>
+                                <div class="flex justify-between items-center py-3 border-b border-secondary/30">
+                                    <span class="text-foreground/60">Email</span>
+                                    <span class="text-foreground font-medium">marcus.johnson@email.com</span>
+                                </div>
+                                <div class="flex justify-between items-center py-3 border-b border-secondary/30">
+                                    <span class="text-foreground/60">Phone</span>
+                                    <span class="text-foreground font-medium">+1 (555) 123-4567</span>
+                                </div>
+                                <div class="flex justify-between items-center py-3 border-b border-secondary/30">
+                                    <span class="text-foreground/60">Date of Birth</span>
+                                    <span class="text-foreground font-medium">March 15, 1990</span>
+                                </div>
+                                <div class="flex justify-between items-center py-3 border-b border-secondary/30">
+                                    <span class="text-foreground/60">Emergency Contact</span>
+                                    <span class="text-foreground font-medium">Sarah Johnson</span>
+                                </div>
+                                <div class="flex justify-between items-center py-3">
+                                    <span class="text-foreground/60">Address</span>
+                                    <span class="text-foreground font-medium text-right">123 Fitness Ave<br>New York, NY 10001</span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        
+                    <!-- Last Visit Details (Table Format) -->
+                    <div class="bg-gradient-to-b from-secondary/40 to-secondary/60 rounded-2xl border border-secondary/50 p-6">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="p-2 bg-primary/20 rounded-lg">
+                                <i data-lucide="user" class="w-5 h-5 text-gold"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-foreground">Fitness Logs</h3>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full table-auto border-collapse text-sm">
+                                <thead>
+                                    <tr class="bg-secondary/30 text-left text-foreground">
+                                        <th class="px-4 py-2 font-semibold">Branch</th>
+                                        <th class="px-4 py-2 font-semibold">Time</th>
+                                        <th class="px-4 py-2 font-semibold">Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-t border-secondary/30 text-foreground font-medium">
+                                        <td class="px-4 py-3">Quezon City</td>
+                                        <td class="px-4 py-3">9:00 AM - 6:00 PM</td>
+                                        <td class="px-4 py-3">June 17, 2025</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                        <!-- Appointment Details (Table Format) -->
+                    <div class="bg-gradient-to-b from-secondary/40 to-secondary/60 rounded-2xl border border-secondary/50 p-6">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="p-2 bg-primary/20 rounded-lg">
+                                <i data-lucide="calendar-plus" class="w-5 h-5 text-gold"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-foreground">Your Appointments</h3>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full table-auto border-collapse text-sm">
+                                <thead>
+                                    <tr class="bg-secondary/30 text-left text-foreground">
+                                        <th class="px-4 py-2 font-semibold">Branch</th>
+                                        <th class="px-4 py-2 font-semibold">Date</th>
+                                        <th class="px-4 py-2 font-semibold">Trainer</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-t border-secondary/30 text-foreground font-medium">
+                                        <td class="px-4 py-3">Quezon City</td>
+                                        <td class="px-4 py-3">June 17, 2025</td>
+                                        <td class="px-4 py-3">John Cena</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                        <!-- Membership & Goals -->
+                        <div class="space-y-8">
+                            <!-- Membership Info -->
+                            <div class="bg-gradient-to-b from-secondary/40 to-secondary/60 rounded-2xl border border-secondary/50 p-6">
+                                <div class="flex items-center gap-3 mb-6">
+                                    <div class="p-2 bg-primary/20 rounded-lg">
+                                        <i data-lucide="crown" class="w-5 h-5 text-gold"></i>
+                                    </div>
+                                    <h3 class="text-xl font-bold text-foreground">Membership</h3>
+                                </div>
+
+                                <div class="space-y-4">
+                                    <div class="flex justify-between items-center py-3 border-b border-secondary/30">
+                                        <span class="text-foreground/60">Plan</span>
+                                        <span class="text-gold font-semibold">Premium Gold</span>
+                                    </div>
+                                    <div class="flex justify-between items-center py-3 border-b border-secondary/30">
+                                        <span class="text-foreground/60">Start Date</span>
+                                        <span class="text-foreground font-medium">January 15, 2022</span>
+                                    </div>
+                                    <div class="flex justify-between items-center py-3 border-b border-secondary/30">
+                                        <span class="text-foreground/60">Next Billing</span>
+                                        <span class="text-foreground font-medium">January 15, 2025</span>
+                                    </div>
+                                    <div class="flex justify-between items-center py-3">
+                                        <span class="text-foreground/60">Status</span>
+                                        <span class="inline-flex items-center gap-2 px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-sm font-medium">
+                                            <div class="w-2 h-2 bg-green-400 rounded-full"></div>
+                                            Active
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                  
+
+            <!-- Appointment Modal -->
+            <div id="appointment-modal" class="modal-overlay">
+                <div class="modal-content">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-xl font-bold text-foreground">Set Appointment</h3>
+                        <button title="Close Appointment" id="close-appointment" class="text-foreground/60 hover:text-foreground">
+                            <i data-lucide="x" class="w-6 h-6"></i>
+                        </button>
+                    </div>
+
+                    <form class="space-y-4">
+                        <div>
+                            <label class="block text-foreground/60 text-sm font-medium mb-2">Service Type</label>
+                            <select title="Service Type" class="form-input">
+                                <option>Personal Training</option>
+                                <option>Nutrition Consultation</option>
+                                <option>Fitness Assessment</option>
+                                <option>Group Class</option>
+                            </select>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-foreground/60 text-sm font-medium mb-2">Date</label>
+                                <input placeholder="Select Date" type="date" class="form-input">
+                            </div>
+                            <div>
+                                <label class="block text-foreground/60 text-sm font-medium mb-2">Time</label>
+                                <select title="Time" class="form-input">
+                                    <option>9:00 AM</option>
+                                    <option>10:00 AM</option>
+                                    <option>11:00 AM</option>
+                                    <option>2:00 PM</option>
+                                    <option>3:00 PM</option>
+                                    <option>4:00 PM</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-foreground/60 text-sm font-medium mb-2">Notes (Optional)</label>
+                            <textarea class="form-input h-24 resize-none" placeholder="Any specific requirements or goals..."></textarea>
+                        </div>
+
+                        <div class="flex gap-3 pt-4">
+                            <button type="button" id="cancel-appointment" class="btn-secondary flex-1">Cancel</button>
+                            <button type="submit" class="btn-primary flex-1">Book Appointment</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Referral Modal -->
+        <div id="referral-modal" class="modal-overlay">
+                <div class="modal-content">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-xl font-bold text-foreground">Refer a Friend</h3>
+                        <button title="Close Referral" id="close-referral" class="text-foreground/60 hover:text-foreground">
+                            <i data-lucide="x" class="w-6 h-6"></i>
+                        </button>
+                    </div>
+
+                    <div class="text-center mb-6">
+                        <div class="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i data-lucide="gift" class="w-8 h-8 text-gold"></i>
+                        </div>
+                        <p class="text-foreground/80">Share the gift of fitness! Both you and your friend get a free month when they join.</p>
+                    </div>
+
+                    <form class="space-y-4">
+                        <div>
+                            <label class="block text-foreground/60 text-sm font-medium mb-2">Friend's Name</label>
+                            <input type="text" class="form-input" placeholder="Enter your friend's name">
+                        </div>
+
+                        <div>
+                            <label class="block text-foreground/60 text-sm font-medium mb-2">Friend's Email</label>
+                            <input type="email" class="form-input" placeholder="Enter your friend's email">
+                        </div>
+
+                        <div>
+                            <label class="block text-foreground/60 text-sm font-medium mb-2">Personal Message (Optional)</label>
+                            <textarea class="form-input h-24 resize-none" placeholder="Add a personal message to your invitation..."></textarea>
+                        </div>
+
+                        <div class="bg-secondary/30 rounded-lg p-4">
+                            <h4 class="text-foreground font-medium mb-2">Referral Benefits:</h4>
+                            <ul class="text-foreground/80 text-sm space-y-1">
+                                <li>• You get 1 free month added to your membership</li>
+                                <li>• Your friend gets 1 free month on their first membership</li>
+                                <li>• No limit on referrals - keep earning free months!</li>
+                            </ul>
+                        </div>
+
+                        <div class="flex gap-3 pt-4">
+                            <button type="button" id="cancel-referral" class="btn-secondary flex-1">Cancel</button>
+                            <button type="submit" class="btn-primary flex-1">Send Invitation</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+    </div>
+
+    <!-- Settings Screen -->
+    <div id="lp-settings-screen" class="fixed inset-0 hidden z-50">
+      <div class="min-h-screen bg-black/80 backdrop-blur-sm p-4 overflow-auto">
+        <div class="max-w-4xl mx-auto">
+          <!-- Header -->
+          <div class="bg-secondary/60 border border-secondary/40 rounded-2xl p-4 mb-6 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <button id="lp-back-to-dashboard" class="text-foreground/70 hover:text-foreground">
+                <i data-lucide="arrow-left" class="w-6 h-6"></i>
+              </button>
+              <div>
+                <div class="text-xl font-bold text-foreground">Account Settings</div>
+                <div class="text-foreground/60 text-sm">Manage your profile</div>
+              </div>
+            </div>
+            <button id="lp-sign-out" class="text-foreground/70 hover:text-foreground" title="Sign out">
+              <i data-lucide="log-out" class="w-6 h-6"></i>
+            </button>
+          </div>
+
+          <!-- Content Grid -->
+          <div class="grid lg:grid-cols-2 gap-6">
+            <!-- Profile Photo Card -->
+            <div class="bg-secondary/40 border border-secondary/40 rounded-2xl p-6">
+              <div class="flex items-center gap-3 mb-6">
+                <div class="p-2 bg-primary/20 rounded-lg">
+                  <i data-lucide="image" class="w-5 h-5 text-gold"></i>
+                </div>
+                <h3 class="text-xl font-bold text-foreground">Profile Photo</h3>
+              </div>
+              <div class="flex items-center gap-4 mb-4">
+                <div class="w-24 h-24 rounded-full border-2 border-secondary overflow-hidden">
+                  <img id="lp-settings-avatar-img" src="https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&w=300" alt="Profile Photo" class="w-full h-full object-cover">
+                </div>
+                <div class="flex-1">
+                  <p class="text-foreground/60 text-sm mb-2">Upload a new photo (JPG/PNG)</p>
+                  <input id="lp-photo-input" type="file" accept="image/*" class="form-input !p-2 !h-auto" />
+                </div>
+              </div>
+              <button id="lp-save-photo" class="btn-primary">Save Photo</button>
+            </div>
+
+            <!-- PIN Change Card -->
+            <div class="bg-secondary/40 border border-secondary/40 rounded-2xl p-6">
+              <div class="flex items-center gap-3 mb-6">
+                <div class="p-2 bg-primary/20 rounded-lg">
+                  <i data-lucide="key" class="w-5 h-5 text-gold"></i>
+                </div>
+                <h3 class="text-xl font-bold text-foreground">Change PIN</h3>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-foreground/60 text-sm font-medium mb-2" for="lp-new-pin">New PIN</label>
+                  <input id="lp-new-pin" type="password" maxlength="4" class="form-input" placeholder="Enter 4-digit PIN" />
+                </div>
+                <div>
+                  <label class="block text-foreground/60 text-sm font-medium mb-2" for="lp-confirm-pin">Confirm PIN</label>
+                  <input id="lp-confirm-pin" type="password" maxlength="4" class="form-input" placeholder="Re-enter PIN" />
+                </div>
+              </div>
+              <div class="flex gap-3 pt-4">
+                <button id="lp-save-pin" class="btn-primary flex-1">Save PIN</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+        
+    </script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      let accessCode = ["", "", "", ""];
+      let currentIndex = 0;
+      let showResult = null;
+      let correctCode = localStorage.getItem('memberPIN') || "1234"; // Demo access code
+      let captchaCode = generateCaptcha();
+      let isCaptchaVerified = false;
+
+      // Generate random CAPTCHA
+      function generateCaptcha() {
+        const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        let result = '';
+        for (let i = 0; i < 4; i++) {
+          result += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return result;
+      }
+
+      // Update CAPTCHA display
+      function updateCaptcha() {
+        captchaCode = generateCaptcha();
+        document.getElementById('captcha-text').textContent = captchaCode;
+        document.getElementById('captcha-input').value = '';
+        document.getElementById('captcha-error').textContent = '';
+        isCaptchaVerified = false;
+      }
+
+      // Validate CAPTCHA
+      function validateCaptcha() {
+        const userInput = document.getElementById('captcha-input').value.toUpperCase();
+        const errorElement = document.getElementById('captcha-error');
+        
+        if (userInput === '') {
+          errorElement.textContent = 'Please enter the CAPTCHA code';
+          return false;
+        }
+        
+        if (userInput !== captchaCode) {
+          errorElement.textContent = 'Incorrect CAPTCHA. Please try again.';
+          updateCaptcha();
+          return false;
+        }
+        
+        errorElement.textContent = '';
+        isCaptchaVerified = true;
+        return true;
+      }
+
+      function updateDisplay() {
+        for (let i = 0; i < 4; i++) {
+          const input = document.getElementById(`digit-${i}`);
+          input.value = accessCode[i] || "";
+
+          // Remove all classes
+          input.classList.remove("active", "success", "error");
+
+          // Add appropriate class
+          if (i === currentIndex && showResult === null) {
+            input.classList.add("active");
+          } else if (showResult === "success") {
+            input.classList.add("success");
+          } else if (showResult === "error") {
+            input.classList.add("error");
+          }
+        }
+
+        // Update button states
+        const numberButtons = document.querySelectorAll(".keypad-btn.number");
+        const backspaceBtn = document.getElementById("backspace-btn");
+
+        numberButtons.forEach((btn) => {
+          btn.disabled = currentIndex >= 4 || showResult !== null;
+        });
+
+        backspaceBtn.disabled = currentIndex === 0 || showResult !== null;
+      }
+
+      function handleNumberClick(number) {
+        if (currentIndex < 4 && showResult === null) {
+          accessCode[currentIndex] = number;
+          currentIndex++;
+          updateDisplay();
+
+          // Check if code is complete
+          if (currentIndex === 4) {
+            // Check if CAPTCHA is filled
+            const captchaInput = document.getElementById('captcha-input');
+            if (!captchaInput.value) {
+              document.getElementById('captcha-error').textContent = 'Please complete the CAPTCHA';
+              captchaInput.focus();
+              return;
+            }
+            
+            // Validate CAPTCHA first
+            if (!validateCaptcha()) {
+              return;
+            }
+            
+            const enteredCode = accessCode.join("");
+            setTimeout(() => {
+              if (enteredCode === correctCode) {
+                handleSuccessfulLogin();
+              } else {
+                handleFailedLogin();
+              }
+              updateDisplay();
+            }, 300);
+          }
+        }
+      }
+
+      function handleBackspace() {
+        if (currentIndex > 0 && showResult === null) {
+          currentIndex--;
+          accessCode[currentIndex] = "";
+          updateDisplay();
+        }
+      }
+
+      function showResultMessage(type, iconClass, text) {
+        const messageDiv = document.getElementById("result-message");
+        const iconElement = document.getElementById("result-icon");
+        const textElement = document.getElementById("result-text");
+        const resetSection = document.getElementById("reset-section");
+
+        messageDiv.className = `result-message result-${type}`;
+        iconElement.className = iconClass;
+        textElement.textContent = text;
+
+        messageDiv.style.display = "block";
+        if (type === "error") {
+          resetSection.style.display = "block";
+        }
+      }
+
+      function handleSuccessfulLogin() {
+        showResult = "success";
+        showResultMessage("success", "fas fa-check", "Access Granted");
+        
+        // Show redirect message
+        const redirectMessage = document.getElementById("redirect-message");
+        redirectMessage.style.display = 'block';
+        redirectMessage.style.opacity = '1';
+        
+        // Hide auth section and all its contents, then show app section
+        setTimeout(() => {
+          const authSection = document.getElementById('auth-section');
+          const appSection = document.getElementById('app-section');
+          
+          // Hide the entire auth section and its contents
+          authSection.style.display = 'none';
+          authSection.classList.add('d-none');
+          // Ensure it's removed from layout flow
+          authSection.setAttribute('aria-hidden', 'true');
+          authSection.inert = true;
+          
+          // Make sure app section is properly positioned and visible
+          appSection.classList.remove('d-none');
+          appSection.style.display = 'block';
+          appSection.removeAttribute('aria-hidden');
+          appSection.inert = false;
+          
+          // Hide redirect message
+          redirectMessage.style.display = 'none';
+          
+          // Force a reflow to ensure styles are applied
+          void appSection.offsetHeight;
+
+          // Load stored profile photo into dashboard
+          const storedPhoto = localStorage.getItem('memberPhoto');
+          if (storedPhoto) {
+            const profileImg = document.getElementById('lp-profile-img');
+            if (profileImg) profileImg.src = storedPhoto;
+          }
+        }, 1000);
+      }
+
+      function handleFailedLogin() {
+        showResult = "error";
+        showResultMessage("error", "fas fa-times", "Access Denied");
+        // Reset after 2 seconds
+        setTimeout(() => {
+          resetCode();
+        }, 2000);
+      }
+
+      function resetCode() {
+        accessCode = ["", "", "", ""];
+        currentIndex = 0;
+        showResult = null;
+        isCaptchaVerified = false;
+
+        document.getElementById("result-message").style.display = "none";
+        document.getElementById("reset-section").style.display = "none";
+        document.getElementById("redirect-message").classList.remove("show");
+        document.getElementById("captcha-error").textContent = "";
+        
+        updateCaptcha();
+        updateDisplay();
+      }
+
+      // Initialize display
+      updateDisplay();
+
+      // Add keyboard support
+      document.addEventListener("keydown", function (event) {
+        // Check if the event target is the CAPTCHA input
+        const captchaInput = document.getElementById('captcha-input');
+        if (document.activeElement === captchaInput) {
+          // Allow typing in CAPTCHA input without affecting PIN
+          return;
+        }
+        
+        // Handle PIN input
+        if (event.key >= "0" && event.key <= "9") {
+          handleNumberClick(event.key);
+        } else if (event.key === "Backspace") {
+          event.preventDefault();
+          handleBackspace();
+        } else if (event.key === "Enter") {
+          if (showResult !== null) {
+            resetCode();
+          } else if (currentIndex === 4) {
+            if (!captchaInput.value) {
+              document.getElementById('captcha-error').textContent = 'Please complete the CAPTCHA';
+              captchaInput.focus();
+              return;
+            }
+            
+            if (!validateCaptcha()) {
+              return;
+            }
+            
+            const enteredCode = accessCode.join("");
+            if (enteredCode === correctCode) {
+              handleSuccessfulLogin();
+            } else {
+              handleFailedLogin();
+            }
+          }
+        }
+      });
+
+      // Add event listeners for CAPTCHA
+      document.getElementById('refresh-captcha').addEventListener('click', updateCaptcha);
+      document.getElementById('captcha-input').addEventListener('input', function() {
+        // Auto-validate CAPTCHA when user types
+        if (this.value.length === 4) {
+          validateCaptcha();
+        }
+      });
+
+      function requestFullscreen() {
+        const elem = document.documentElement;
+        if (elem.requestFullscreen) {
+          elem.requestFullscreen();
+        } else if (elem.webkitRequestFullscreen) {
+          // Safari
+          elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) {
+          // IE11
+          elem.msRequestFullscreen();
+        }
+      }
+
+      // Trigger fullscreen on first interaction (click, touch, etc.)
+      function enableFullscreenOnFirstInteraction() {
+        document.addEventListener("click", goFullscreenOnce, { once: true });
+        document.addEventListener("touchstart", goFullscreenOnce, {
+          once: true,
+        });
+      }
+
+      function goFullscreenOnce() {
+        requestFullscreen();
+      }
+
+      // Initialize CAPTCHA on page load
+      updateCaptcha();
+      
+      // Call this when the page loads
+      enableFullscreenOnFirstInteraction();
+
+      // =====================
+      // Modal controls (show/hide)
+      // =====================
+      function showModal(id) {
+        const el = document.getElementById(id);
+        if (el) el.classList.add('active');
+      }
+      function hideModal(id) {
+        const el = document.getElementById(id);
+        if (el) el.classList.remove('active');
+      }
+
+      // Open modals
+      document.getElementById('appointment-btn')?.addEventListener('click', () => showModal('appointment-modal'));
+      document.getElementById('refer-btn')?.addEventListener('click', () => showModal('referral-modal'));
+
+      // Close buttons
+      document.getElementById('close-appointment')?.addEventListener('click', () => hideModal('appointment-modal'));
+      document.getElementById('cancel-appointment')?.addEventListener('click', () => hideModal('appointment-modal'));
+      document.getElementById('close-referral')?.addEventListener('click', () => hideModal('referral-modal'));
+      document.getElementById('cancel-referral')?.addEventListener('click', () => hideModal('referral-modal'));
+
+      // Click outside to close
+      document.addEventListener('click', (e) => {
+        const target = e.target;
+        if (!(target instanceof Element)) return;
+        if (target.id === 'appointment-modal') hideModal('appointment-modal');
+        if (target.id === 'referral-modal') hideModal('referral-modal');
+      });
+
+      // Escape key to close active modal
+      document.addEventListener('keydown', (e) => {
+        if (e.key !== 'Escape') return;
+        const open = document.querySelector('.modal-overlay.active');
+        if (open && open.id) hideModal(open.id);
+      });
+
+      // =====================
+      // Settings Integration
+      // =====================
+      function lpShowSettings() {
+        const screen = document.getElementById('lp-settings-screen');
+        if (!screen) return;
+        screen.classList.remove('hidden');
+        screen.style.display = 'block';
+        // Populate current state
+        const storedPhoto = localStorage.getItem('memberPhoto');
+        const img = document.getElementById('lp-settings-avatar-img');
+        if (storedPhoto && img) img.src = storedPhoto;
+        const newPin = document.getElementById('lp-new-pin');
+        const confirmPin = document.getElementById('lp-confirm-pin');
+        if (newPin) newPin.value = '';
+        if (confirmPin) confirmPin.value = '';
+      }
+
+      function lpHideSettings() {
+        const screen = document.getElementById('lp-settings-screen');
+        if (!screen) return;
+        screen.style.display = 'none';
+        screen.classList.add('hidden');
+      }
+
+      function lpToast(message) {
+        const el = document.createElement('div');
+        el.textContent = message;
+        el.style.position = 'fixed';
+        el.style.bottom = '20px';
+        el.style.left = '50%';
+        el.style.transform = 'translateX(-50%)';
+        el.style.background = 'rgb(236, 182, 19)';
+        el.style.color = '#000';
+        el.style.padding = '10px 16px';
+        el.style.borderRadius = '8px';
+        el.style.boxShadow = '0 4px 20px rgba(0,0,0,0.3)';
+        el.style.zIndex = '2000';
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 1600);
+      }
+
+      // Event bindings
+      document.getElementById('lp-settings-button')?.addEventListener('click', lpShowSettings);
+      document.getElementById('lp-back-to-dashboard')?.addEventListener('click', lpHideSettings);
+      document.getElementById('lp-sign-out')?.addEventListener('click', () => {
+        // Sign out: hide app, show auth, reset code
+        lpHideSettings();
+        const authSection = document.getElementById('auth-section');
+        const appSection = document.getElementById('app-section');
+        if (appSection) {
+          appSection.style.display = 'none';
+          appSection.classList.add('d-none');
+          appSection.setAttribute('aria-hidden', 'true');
+          appSection.inert = true;
+        }
+        if (authSection) {
+          authSection.style.display = 'flex';
+          authSection.classList.remove('d-none');
+          authSection.removeAttribute('aria-hidden');
+          authSection.inert = false;
+        }
+        resetCode();
+      });
+
+      // Photo preview and save
+      document.getElementById('lp-photo-input')?.addEventListener('change', (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+          const img = document.getElementById('lp-settings-avatar-img');
+          if (img) img.src = reader.result;
+        };
+        reader.readAsDataURL(file);
+      });
+
+      document.getElementById('lp-save-photo')?.addEventListener('click', () => {
+        const img = document.getElementById('lp-settings-avatar-img');
+        if (img && img.src) {
+          localStorage.setItem('memberPhoto', img.src);
+          // Reflect on dashboard immediately
+          const profileImg = document.getElementById('lp-profile-img');
+          if (profileImg) profileImg.src = img.src;
+          lpToast('Photo updated');
+        }
+      });
+
+      // PIN save
+      document.getElementById('lp-save-pin')?.addEventListener('click', () => {
+        const newPin = (document.getElementById('lp-new-pin') || {}).value || '';
+        const confirmPin = (document.getElementById('lp-confirm-pin') || {}).value || '';
+        if (!/^\d{4}$/.test(newPin)) {
+          alert('PIN must be exactly 4 digits.');
+          return;
+        }
+        if (newPin !== confirmPin) {
+          alert('PINs do not match.');
+          return;
+        }
+        localStorage.setItem('memberPIN', newPin);
+        correctCode = newPin;
+        lpToast('PIN updated');
+      });
+
+      // If user already logged before, preload avatar on page load when app visible
+      (function preloadAvatarIfNeeded(){
+        const storedPhoto = localStorage.getItem('memberPhoto');
+        if (storedPhoto) {
+          const img = document.getElementById('lp-profile-img');
+          if (img) img.src = storedPhoto;
+        }
+      })();
+    </script>
+</body>
+</html>

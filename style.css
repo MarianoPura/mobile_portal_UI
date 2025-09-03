@@ -1,0 +1,367 @@
+/* Custom CSS Variables for Color Palette */
+:root {
+    --background: 0 0% 0%;
+    --foreground: 0 0% 98%;
+    --primary: 45 85% 50%;
+    --primary-foreground: 45 85% 10%;
+    --secondary: 36 27% 39%;
+    --accent: 45 80% 60%;
+}
+
+/* Tailwind CSS Custom Color Classes */
+.bg-background { background-color: hsl(var(--background)); }
+.bg-foreground { background-color: hsl(var(--foreground)); }
+.bg-primary { background-color: hsl(var(--primary)); }
+.bg-primary-foreground { background-color: hsl(var(--primary-foreground)); }
+.bg-secondary { background-color: hsl(var(--secondary)); }
+.bg-accent { background-color: hsl(var(--accent)); }
+
+.text-background { color: hsl(var(--background)); }
+.text-foreground { color: hsl(var(--foreground)); }
+.text-primary { color: hsl(var(--primary)); }
+.text-primary-foreground { color: hsl(var(--primary-foreground)); }
+.text-secondary { color: hsl(var(--secondary)); }
+.text-accent { color: hsl(var(--accent)); }
+
+.border-background { border-color: hsl(var(--background)); }
+.border-foreground { border-color: hsl(var(--foreground)); }
+.border-primary { border-color: hsl(var(--primary)); }
+.border-primary-foreground { border-color: hsl(var(--primary-foreground)); }
+.border-secondary { border-color: hsl(var(--secondary)); }
+.border-accent { border-color: hsl(var(--accent)); }
+
+/* Opacity variants */
+.bg-primary\/20 { background-color: hsl(var(--primary) / 0.2); }
+.bg-primary\/30 { background-color: hsl(var(--primary) / 0.3); }
+.bg-secondary\/20 { background-color: hsl(var(--secondary) / 0.2); }
+.bg-secondary\/30 { background-color: hsl(var(--secondary) / 0.3); }
+.bg-secondary\/40 { background-color: hsl(var(--secondary) / 0.4); }
+.bg-secondary\/50 { background-color: hsl(var(--secondary) / 0.5); }
+.bg-secondary\/60 { background-color: hsl(var(--secondary) / 0.6); }
+.bg-secondary\/80 { background-color: hsl(var(--secondary) / 0.8); }
+
+.border-secondary\/30 { border-color: hsl(var(--secondary) / 0.3); }
+.border-secondary\/50 { border-color: hsl(var(--secondary) / 0.5); }
+
+.text-foreground\/60 { color: hsl(var(--foreground) / 0.6); }
+.text-foreground\/80 { color: hsl(var(--foreground) / 0.8); }
+
+/* Button Styles */
+.btn-primary {
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
+    color: hsl(var(--primary-foreground));
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    border: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    background: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--primary)));
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, hsl(var(--secondary)), hsl(var(--secondary) / 0.8));
+    border: 1px solid hsl(var(--secondary) / 0.6);
+    color: hsl(var(--foreground));
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-secondary:hover {
+    transform: translateY(-2px);
+    border-color: hsl(var(--primary) / 0.5);
+    background: linear-gradient(135deg, hsl(var(--secondary) / 0.8), hsl(var(--secondary) / 0.6));
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.btn-secondary:active {
+    transform: translateY(0);
+}
+
+/* Form Styles */
+.form-input {
+    width: 100%;
+    background-color: hsl(var(--secondary) / 0.3);
+    border: 1px solid hsl(var(--secondary) / 0.6);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    color: hsl(var(--foreground));
+    transition: all 0.2s ease;
+}
+
+.form-input::placeholder {
+    color: hsl(var(--foreground) / 0.4);
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: hsl(var(--primary) / 0.5);
+    box-shadow: 0 0 0 3px hsl(var(--primary) / 0.1);
+    background-color: hsl(var(--secondary) / 0.2);
+}
+
+/* Modal Styles */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background: linear-gradient(135deg, hsl(var(--secondary) / 0.4), hsl(var(--secondary) / 0.6));
+    border: 1px solid hsl(var(--secondary) / 0.5);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    width: 100%;
+    max-width: 28rem;
+    transform: scale(0.95);
+    transition: transform 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.modal-overlay.active .modal-content {
+    transform: scale(1);
+}
+
+/* Activity Card Hover Effects */
+.activity-card {
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.activity-card:hover {
+    background-color: hsl(var(--secondary) / 0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* Ripple Effect */
+button {
+    position: relative;
+    overflow: hidden;
+}
+
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(0);
+    animation: ripple-animation 0.6s linear;
+    pointer-events: none;
+}
+
+@keyframes ripple-animation {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+/* Smooth Scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: hsl(var(--background));
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, hsl(var(--primary)), hsl(var(--accent)));
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(to bottom, hsl(var(--accent)), hsl(var(--primary)));
+}
+
+/* Loading Animation */
+@keyframes pulse-gold {
+    0%, 100% {
+        box-shadow: 0 0 0 0 hsl(var(--primary) / 0.4);
+    }
+    50% {
+        box-shadow: 0 0 0 10px hsl(var(--primary) / 0);
+    }
+}
+
+.pulse-gold {
+    animation: pulse-gold 2s infinite;
+}
+
+/* Focus States for Accessibility */
+button:focus,
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+}
+
+/* Gradient Text */
+.gradient-text {
+    background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--accent)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Card Hover Effects */
+.card-hover {
+    transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    transform: translateY(-4px);
+    border-color: hsl(var(--primary) / 0.3);
+}
+
+/* Status Badge Animation */
+.status-badge {
+    position: relative;
+    overflow: hidden;
+}
+
+.status-badge::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.status-badge:hover::before {
+    left: 100%;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .modal-content {
+        margin: 1rem;
+    }
+    
+    .btn-primary,
+    .btn-secondary {
+        font-size: 0.875rem;
+        padding: 0.5rem 0.3rem;
+    }
+}
+
+/* Animation for stats */
+@keyframes countUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.stat-number {
+    animation: countUp 0.6s ease-out;
+}
+
+/* Smooth Transitions */
+* {
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+
+/* Enhanced visual hierarchy */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+p {
+    line-height: 1.6;
+}
+
+/* Interactive elements feedback */
+button:hover {
+    cursor: pointer;
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+button:disabled:hover {
+    transform: none;
+}
+
+/* Enhanced form styling */
+select option {
+    background-color: hsl(var(--secondary));
+    color: hsl(var(--foreground));
+}
+
+/* Profile picture enhancement */
+.profile-picture {
+    position: relative;
+    overflow: hidden;
+}
+
+.profile-picture::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(45deg, transparent, hsl(var(--primary) / 0.1), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+}
+
+.profile-picture:hover::after {
+    transform: translateX(100%);
+}
